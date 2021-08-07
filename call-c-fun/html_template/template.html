@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <button id="call">Call</button>
+    </div>
+    <!-- 此处用于嵌入胶水js -->
+    {{{ SCRIPT }}}
+    <script>
+        document.querySelector('#call').addEventListener('click', () => {
+            Module.ccall(
+                'myFunction', // name of C function
+                null, // return type
+                null, // argument types
+                null, // arguments
+            )
+        })
+    </script>
+</body>
+</html>

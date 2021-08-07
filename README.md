@@ -28,3 +28,17 @@ emcc ../index.c -o index.html -O3 -s WASM=1 --shell-file ../html_template/templa
 --shell-file ../html_template/template.html - 这指定了要运行的例子使用 HTML 页面模板。
 
 使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
+
+## call-c-fun
+调用在定义在c中的方法
+
+```shell
+cd ./call-c-fun/build
+emcc ../index.c -o index.html -O3 -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" --shell-file ../html_template/template.html
+```
+
+index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函数，其它的函数将被视为无用代码。
+在一个函数名之前添加 EMSCRIPTEN_KEEPALIVE 能够防止这样的事情发生。
+需要导入 emscripten.h 库来使用 EMSCRIPTEN_KEEPALIVE。
+
+使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
