@@ -22,10 +22,10 @@ emcc ../index.c -s WASM=1 -o index.html -O3
 
 ```shell
 cd ./custom-html/build
-emcc ../index.c -o index.html -O3 -s WASM=1 --shell-file ../html_template/template.html
+emcc ../index.c -o index.html -O3 -s WASM=1 --shell-file ../html-template/template.html
 ```
 
---shell-file ../html_template/template.html - 这指定了要运行的例子使用 HTML 页面模板。
+--shell-file ../html-template/template.html - 这指定了要运行的例子使用 HTML 页面模板。
 
 使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
 
@@ -34,7 +34,7 @@ emcc ../index.c -o index.html -O3 -s WASM=1 --shell-file ../html_template/templa
 
 ```shell
 cd ./call-c-fun/build
-emcc ../index.c -o index.html -O3 -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" --shell-file ../html_template/template.html
+emcc ../index.c -o index.html -O3 -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" --shell-file ../html-template/template.html
 ```
 
 index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函数，其它的函数将被视为无用代码。
