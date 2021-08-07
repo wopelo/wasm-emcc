@@ -12,5 +12,16 @@
     </div>
     <!-- 此处用于嵌入胶水js -->
     {{{ SCRIPT }}}
+    <script>
+        try {
+            console.log(Module)
+        } catch(err) {
+            console.log(err)
+        }
+
+        setTimeout(() => {
+            console.log(Module)
+        }, 3000)
+    </script>
 </body>
 </html>
