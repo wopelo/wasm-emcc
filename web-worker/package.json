@@ -1,0 +1,16 @@
+{
+  "name": "web-worker",
+  "version": "1.0.0",
+  "description": "Using wasm in web worker",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "koa": "^2.13.1",
+    "koa-static": "^5.0.0"
+  }
+}

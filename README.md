@@ -42,3 +42,27 @@ index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函
 需要导入 emscripten.h 库来使用 EMSCRIPTEN_KEEPALIVE。
 
 使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
+
+## web-worker
+在web worker中运行wasm
+
+```shell
+cd ./web-worker/build
+emcc ../index.c -o index.html -O3 -s WASM=1 -s -pthread -s PROXY_TO_PTHREAD=1 --shell-file ../html-template/template.html -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']"
+
+cd ../
+npm run dev
+```
+
+-s -pthread -s PROXY_TO_PTHREAD=1 - 将原main()方法置于WebWorker中执行
+
+chrome浏览器从92版本开始，ShareArrayBuffer的时候需要满足COOP、COEP跨域策略
+https://developer.chrome.com/blog/enabling-shared-array-buffer/
+页面需要支持跨域隔离，在响应头里添加
+
+```
+Cross-Origin-Embedder-Policy: require-corp
+Cross-Origin-Opener-Policy: same-origin
+```
+ 
+设置完成后，资源需要添加 Cross-Origin-Resource-Policy 头或者 CORS 头才能正常加载
