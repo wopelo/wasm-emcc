@@ -66,3 +66,13 @@ Cross-Origin-Opener-Policy: same-origin
 ```
  
 设置完成后，资源需要添加 Cross-Origin-Resource-Policy 头或者 CORS 头才能正常加载
+
+## only-js
+只编译生成js
+
+```shell
+cd ./only-js/build
+emcc ../index.c -o index.js  -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" 
+```
+
+使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
