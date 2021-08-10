@@ -76,3 +76,16 @@ emcc ../index.c -o index.js  -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccal
 ```
 
 使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
+
+## fs-system
+文件系统
+
+```shell
+cd fs-system
+emcc ../index.c -o index.js -O3 -s WASM=1 -s FORCE_FILESYSTEM=1 --shell-file ../html-template/template.html
+```
+
+-s FORCE_FILESYSTEM=1 - 强制将文件系统添加进来，否则编译器将根据c/c++的需要，按需加载文件系统
+
+使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
+全局下存在FS对象
