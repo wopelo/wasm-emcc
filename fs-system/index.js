@@ -78,6 +78,56 @@ function readFile(type) {
 
 bindEvent('#read', 'click', () => readFile('utf8'))
 bindEvent('#readBinary', 'click', () => readFile('binary'))
+bindEvent('#readStream', 'click', () => {
+    const fileName = query('#fileName').value
+
+    if (!fileName) {
+        console.log('need file name')
+        return
+    }
+
+    if (FS.readdir(FS.cwd()).indexOf(fileName) < 0) {
+        console.log('file does not exist')
+        return
+    }
+    
+    const fsOpenStream = FS.open(fileName, 'r')
+    const readStream =  new ReadableStream({
+        start: (controller) => {
+          const { usedBytes } = fsOpenStream.node
+          const n = usedBytes < 100 ? usedBytes : 100
+          const total = Math.ceil(usedBytes / n)
+          let time = 0
+  
+          while (time < total) {
+            const buf = new Uint8Array(n)
+            FS.read(fsOpenStream, buf, 0, n, time * n)
+            controller.enqueue(buf)
+            time++
+          }
+  
+          controller.close()
+        },
+    })
+
+    const reader = readStream.getReader()
+    let str = ''
+
+    function processText({
+      done,
+      value,
+    }) {
+      if (done) {
+        console.log('Stream complete', str)
+        return
+      }
+
+      str += Uint8ArrayToString(value || new ArrayBuffer(0))
+      return reader.read().then(processText)
+    }
+
+    reader.read().then(processText);
+})
 
 
 // 写入文件
@@ -95,3 +145,51 @@ function writeFile(type) {
 
 bindEvent('#write', 'click', () => writeFile('uft8'))
 bindEvent('#writeBinary', 'click', () => writeFile('binary'))
+bindEvent('#writeStream', 'click', async () => {
+    const fileName = query('#msgName').value
+    if (!fileName) {
+        console.log('need file name')
+        return
+    } 
+
+    const url = query('#msg').value
+    if (!url) {
+        console.log('need file url')
+        return
+    }
+
+    const response = await fetch(url)
+    const reader = response.body.getReader()
+
+    if (!reader) {
+      return
+    }
+
+    const fsOpenStream = FS.open(fileName, 'w', 0o666)
+    const writeStream = new WritableStream({
+      write: (chunk) => {
+        if (!chunk) {
+          return
+        }
+
+        FS.write(fsOpenStream, chunk, 0, chunk.length, 0)
+      },
+      // To ensure that data is synced to the system
+      close: async () => {
+        FS.close(fsOpenStream)
+      },
+    })
+
+    const defaultWriter = writeStream.getWriter()
+    while (true) {
+        const { value, done } = await reader.read()
+        defaultWriter.write(value)
+        if (done) {
+          // because FS.syncfs is async
+          await defaultWriter.close()
+          break
+        }
+        console.log('Received', value)
+    }
+    console.log('Response fully received')
+})
