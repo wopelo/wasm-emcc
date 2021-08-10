@@ -8,7 +8,28 @@
 </head>
 <body>
     <div>
-        
+        <div>
+            <button id="cwd">当前路径</button>
+            <button id="ls">文件列表</button>
+        </div>
+        <div>
+            <input type="text" placeholder="文件夹名称" id="dirName" />
+            <button id="cd">进入文件夹</button>
+            <button id="mkdir">新建文件夹</button>
+        </div>
+        <div>
+            <input type="text" placeholder="文件名称" id="fileName" />
+            <button id="read">读取文件</button>
+            <button id="readBinary">读取为二进制</button>
+        </div>
+        <div>
+            <input type="text" placeholder="文件名称" id="msgName" />
+            <br />
+            <textarea  placeholder="文件内容" id="msg"></textarea>
+            <br />
+            <button id="write">写入文件</button>
+            <button id="writeBinary">写为二进制</button>
+        </div>
     </div>
 
     <script src="./build/index.js"></script>
