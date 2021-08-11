@@ -193,3 +193,14 @@ bindEvent('#writeStream', 'click', async () => {
     }
     console.log('Response fully received')
 })
+
+bindEvent('#stat', 'click', () => {
+    const path = query('#path').value
+
+    if (!path) {
+        console.log('需要指定路径')
+        return
+    }
+
+    console.log(FS.stat(path))
+})
