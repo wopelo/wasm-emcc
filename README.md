@@ -89,3 +89,12 @@ emcc ../index.c -o index.js -O3 -s WASM=1 -s FORCE_FILESYSTEM=1 --shell-file ../
 
 使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
 全局下存在FS对象
+
+## load-remote-wasm
+模拟从远程加载wasm
+
+前提工作，生成js/wasm
+```shell
+cd ./load-remote-wasm/wasm
+emcc ./index.c -o index.js -O3 -s WASM=1 -s -pthread -s PROXY_TO_PTHREAD=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']"
+```
