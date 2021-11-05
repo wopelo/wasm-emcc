@@ -46,6 +46,7 @@ function addScript(sourceBlobUrl) {
     // 当需要加载文件时，匹配路径返回文件
     // 如果不设置，.wasm会到http://localhost:3001/index.wasm下获取，返回404
     module.locateFile = (path, scriptDirectory) => {
+        console.log('locateFile', path, scriptDirectory)
         if (path.endsWith('.worker.js')) {
           return '/wasm/index.worker.js'
         } else if (path.endsWith('.wasm')) {

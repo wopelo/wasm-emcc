@@ -53,6 +53,7 @@ emcc ../index.c -o index.html -O3 -s WASM=1 -s -pthread -s PROXY_TO_PTHREAD=1 --
 cd ../
 npm run dev
 ```
+使用一个支持 WebAssembly 的浏览器，访问 http://localhost:3000 即可
 
 -s -pthread -s PROXY_TO_PTHREAD=1 - 将原main()方法置于WebWorker中执行
 
@@ -95,9 +96,11 @@ emcc ../index.c -o index.js -O3 -s WASM=1 -s FORCE_FILESYSTEM=1 --shell-file ../
 
 ```shell
 # 前提工作，生成js/wasm
-cd ./load-remote-wasm/wasm
-emcc ./index.c -o index.js -s WASM=1 -s -pthread -s PROXY_TO_PTHREAD=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']"
+cd ./load-remote-wasm/build
+emcc ../index.c -o index.html -O3 -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" --shell-file ../html-template/template.html
 
 cd ../
 npm run dev
 ```
+
+使用一个支持 WebAssembly 的浏览器，访问 http://localhost:3001/page 即可
