@@ -29,12 +29,30 @@ emcc ../index.c -o index.html -O3 -s WASM=1 --shell-file ../html-template/templa
 
 使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
 
+### 注意
+windows下指定的目标html文件内如果包含中文，包括中文注释，编译时会导致pyhton脚本无法解析中文字符，原因是windows下python默认的系统编码不是utf-8
+推荐参考only-js的做法，编译只生成js/wasm文件，在html中引入生成的js即可
+
 ## call-c-fun
 调用在定义在c中的方法
 
 ```shell
 cd ./call-c-fun/build
 emcc ../index.c -o index.html -O3 -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" --shell-file ../html-template/template.html
+```
+
+index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函数，其它的函数将被视为无用代码。
+在一个函数名之前添加 EMSCRIPTEN_KEEPALIVE 能够防止这样的事情发生。
+需要导入 emscripten.h 库来使用 EMSCRIPTEN_KEEPALIVE。
+
+使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
+
+## call-c-fun-params
+调用在定义在c中的方法，并传递参数
+
+```shell
+cd ./call-c-fun-params/build
+emcc ../index.c -o index.js -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']"
 ```
 
 index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函数，其它的函数将被视为无用代码。
@@ -73,7 +91,7 @@ Cross-Origin-Opener-Policy: same-origin
 
 ```shell
 cd ./only-js/build
-emcc ../index.c -o index.js  -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" 
+emcc ../index.c -o index.js -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" 
 ```
 
 使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
