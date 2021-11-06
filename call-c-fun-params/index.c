@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <malloc.h>
+
 
 // 定义函数导出宏
 // __EMSCRIPTEN__宏用于探测是否是Emscripten环境
@@ -23,18 +25,6 @@
 
 int main(int argc, char ** argv) {
   printf("Hello World\n");
-}
-
-EM_PORT_API(void) myFunction(int argc, char ** argv) {
-  printf("我的函数已被调用\n");
-}
-
-EM_PORT_API(float) add(float a, float b) {
-	return a + b;
-}
-
-EM_PORT_API(char) say(char s) {
-  return s;
 }
 
 EM_PORT_API(int) g_int = 42;
@@ -63,4 +53,44 @@ EM_PORT_API(void) print_float(float a) {
 
 EM_PORT_API(void) print_double(double a) {
 	printf("C{print_double() a:%lf}\n", a);
+}
+
+// 生成斐波那契数列
+EM_PORT_API(int*) fibonacci(int count) {
+	if (count <= 0) return NULL;
+
+	int* re = (int*)malloc(count * 4);
+	if (NULL == re) {
+		printf("Not enough memory.\n");
+		return NULL;
+	}
+
+	re[0] = 1;
+	int i0 = 0, i1 = 1;
+	for (int i = 1; i < count; i++){
+		re[i] = i0 + i1;
+		i0 = i1;
+		i1 = re[i];
+	}
+	
+	return re;
+}
+
+// 释放内存
+EM_PORT_API(void) free_buf(void* buf) {
+	free(buf);
+}
+
+// 分配内存
+EM_PORT_API(void*) malloc_buf(size_t size) {
+	return malloc(size);
+}
+
+// 求数组前count项的和
+EM_PORT_API(int) sum(int* ptr, int count) {
+	int total = 0;
+	for (int i = 0; i < count; i++){
+		total += ptr[i];
+	}
+	return total;
 }

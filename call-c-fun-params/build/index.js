@@ -1849,6 +1849,15 @@ var ASM_CONSTS = {
       HEAPU8.copyWithin(dest, src, src + num);
     }
 
+  function abortOnCannotGrowMemory(requestedSize) {
+      abort('Cannot enlarge memory arrays to size ' + requestedSize + ' bytes (OOM). Either (1) compile with  -s INITIAL_MEMORY=X  with X higher than the current value ' + HEAP8.length + ', (2) compile with  -s ALLOW_MEMORY_GROWTH=1  which allows increasing the size at runtime, or (3) if you want malloc to return NULL (0) instead of this abort, compile with  -s ABORTING_MALLOC=0 ');
+    }
+  function _emscripten_resize_heap(requestedSize) {
+      var oldSize = HEAPU8.length;
+      requestedSize = requestedSize >>> 0;
+      abortOnCannotGrowMemory(requestedSize);
+    }
+
   function flush_NO_FILESYSTEM() {
       // flush anything remaining in the buffers during shutdown
       if (typeof _fflush !== 'undefined') _fflush(0);
@@ -1930,6 +1939,7 @@ function intArrayToString(array) {
 
 var asmLibraryArg = {
   "emscripten_memcpy_big": _emscripten_memcpy_big,
+  "emscripten_resize_heap": _emscripten_resize_heap,
   "fd_write": _fd_write,
   "setTempRet0": _setTempRet0
 };
@@ -1939,15 +1949,6 @@ var ___wasm_call_ctors = Module["___wasm_call_ctors"] = createExportWrapper("__w
 
 /** @type {function(...*):?} */
 var _main = Module["_main"] = createExportWrapper("main");
-
-/** @type {function(...*):?} */
-var _myFunction = Module["_myFunction"] = createExportWrapper("myFunction");
-
-/** @type {function(...*):?} */
-var _add = Module["_add"] = createExportWrapper("add");
-
-/** @type {function(...*):?} */
-var _say = Module["_say"] = createExportWrapper("say");
 
 /** @type {function(...*):?} */
 var _get_int_ptr = Module["_get_int_ptr"] = createExportWrapper("get_int_ptr");
@@ -1966,6 +1967,18 @@ var _print_float = Module["_print_float"] = createExportWrapper("print_float");
 
 /** @type {function(...*):?} */
 var _print_double = Module["_print_double"] = createExportWrapper("print_double");
+
+/** @type {function(...*):?} */
+var _fibonacci = Module["_fibonacci"] = createExportWrapper("fibonacci");
+
+/** @type {function(...*):?} */
+var _free_buf = Module["_free_buf"] = createExportWrapper("free_buf");
+
+/** @type {function(...*):?} */
+var _malloc_buf = Module["_malloc_buf"] = createExportWrapper("malloc_buf");
+
+/** @type {function(...*):?} */
+var _sum = Module["_sum"] = createExportWrapper("sum");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");
@@ -2000,8 +2013,8 @@ var _emscripten_stack_get_end = Module["_emscripten_stack_get_end"] = function()
 /** @type {function(...*):?} */
 var dynCall_jiji = Module["dynCall_jiji"] = createExportWrapper("dynCall_jiji");
 
-var _g_int = Module['_g_int'] = 1712;
-var _g_double = Module['_g_double'] = 1720;
+var _g_int = Module['_g_int'] = 1696;
+var _g_double = Module['_g_double'] = 1704;
 
 
 

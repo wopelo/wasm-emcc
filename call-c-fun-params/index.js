@@ -25,31 +25,35 @@ document.querySelector('#change').addEventListener('click', () => {
   Module._print_double(2000000.03125)
 })
 
-document.querySelector('#call').addEventListener('click', () => {
-  Module.ccall(
-      'myFunction', // name of C function
-      null, // return type
-      null, // argument types
-      null, // arguments
-  )
+// c通过内存向js传递数据
+document.querySelector('#fibonacci').addEventListener('click', () => {
+  let ptr = Module._fibonacci(10)
+
+  if (ptr == 0) return
+
+  let str = ''
+
+  for (let i = 0; i < 10; i++){
+    str += Module.HEAP32[(ptr >> 2) + i]
+    str += ' '
+  }
+
+  console.log(str)
+
+  // C函数fibonacci()在堆上分配了空间，在JavaScript中调用后需要调用free_buf()将其释放以免内存泄漏
+  Module._free_buf(ptr)
 })
 
-document.querySelector('#add').addEventListener('click', () => {
-  console.log(1.1 + 2.2)
-  console.log(Module._add(1.1, 2.2))
-  console.log(Module.ccall(
-    'add',
-    'number',
-    ['number', 'number'],
-    [1.1, 2.2]
-  ))
-})
+// js通过内存向c传递数据
+document.querySelector('#sum').addEventListener('click', () => {
+  const count = 50
+  // 调用c malloc方法分配内存
+  const ptr = Module._malloc_buf(4 * count)
 
-document.querySelector('#say').addEventListener('click', () => {
-  console.log(Module.ccall(
-    'say',
-    'string',
-    ['string'],
-    ['xxx']
-  ))
+  for (let i = 0; i < count; i++){
+    Module.HEAP32[ptr / 4 + i] = i + 1
+  }
+
+  console.log(Module._sum(ptr, count))
+  Module._free_buf(ptr)
 })
