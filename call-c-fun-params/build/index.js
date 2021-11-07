@@ -775,13 +775,6 @@ function cwrap(ident, returnType, argTypes, opts) {
 
 // We used to include malloc/free by default in the past. Show a helpful error in
 // builds with assertions.
-function _malloc() {
-  abort("malloc() called but not included in the build - add '_malloc' to EXPORTED_FUNCTIONS");
-}
-function _free() {
-  // Show a helpful error since we used to include free by default in the past.
-  abort("free() called but not included in the build - add '_free' to EXPORTED_FUNCTIONS");
-}
 
 var ALLOC_NORMAL = 0; // Tries to use _malloc()
 var ALLOC_STACK = 1; // Lives for the duration of the current function call
@@ -802,7 +795,7 @@ function allocate(slab, allocator) {
   if (allocator == ALLOC_STACK) {
     ret = stackAlloc(slab.length);
   } else {
-    ret = abort('malloc was not included, but is needed in allocate. Adding "_malloc" to EXPORTED_FUNCTIONS should fix that. This may be a bug in the compiler, please file an issue.');;
+    ret = _malloc(slab.length);
   }
 
   if (slab.subarray || slab.slice) {
@@ -1148,7 +1141,7 @@ function lengthBytesUTF32(str) {
 // It is the responsibility of the caller to free() that memory.
 function allocateUTF8(str) {
   var size = lengthBytesUTF8(str) + 1;
-  var ret = abort('malloc was not included, but is needed in allocateUTF8. Adding "_malloc" to EXPORTED_FUNCTIONS should fix that. This may be a bug in the compiler, please file an issue.');;
+  var ret = _malloc(size);
   if (ret) stringToUTF8Array(str, HEAP8, ret, size);
   return ret;
 }
@@ -1972,13 +1965,16 @@ var _print_double = Module["_print_double"] = createExportWrapper("print_double"
 var _fibonacci = Module["_fibonacci"] = createExportWrapper("fibonacci");
 
 /** @type {function(...*):?} */
-var _free_buf = Module["_free_buf"] = createExportWrapper("free_buf");
-
-/** @type {function(...*):?} */
-var _malloc_buf = Module["_malloc_buf"] = createExportWrapper("malloc_buf");
+var _malloc = Module["_malloc"] = createExportWrapper("malloc");
 
 /** @type {function(...*):?} */
 var _sum = Module["_sum"] = createExportWrapper("sum");
+
+/** @type {function(...*):?} */
+var _get_string = Module["_get_string"] = createExportWrapper("get_string");
+
+/** @type {function(...*):?} */
+var _print_string = Module["_print_string"] = createExportWrapper("print_string");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");
@@ -2011,10 +2007,13 @@ var _emscripten_stack_get_end = Module["_emscripten_stack_get_end"] = function()
 };
 
 /** @type {function(...*):?} */
+var _free = Module["_free"] = createExportWrapper("free");
+
+/** @type {function(...*):?} */
 var dynCall_jiji = Module["dynCall_jiji"] = createExportWrapper("dynCall_jiji");
 
-var _g_int = Module['_g_int'] = 1696;
-var _g_double = Module['_g_double'] = 1704;
+var _g_int = Module['_g_int'] = 1744;
+var _g_double = Module['_g_double'] = 1752;
 
 
 

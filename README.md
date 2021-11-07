@@ -38,7 +38,7 @@ windows下指定的目标html文件内如果包含中文，包括中文注释，
 
 ```shell
 cd ./call-c-fun/build
-emcc ../index.c -o index.html -O3 -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" --shell-file ../html-template/template.html
+emcc ../index.c -o index.html -O3 -s WASM=1 -s "EXPORTED_RUNTIME_METHODS=['ccall']" --shell-file ../html-template/template.html
 ```
 
 index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函数，其它的函数将被视为无用代码。
@@ -52,8 +52,9 @@ index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函
 
 ```shell
 cd ./call-c-fun-params/build
-emcc ../index.c -o index.js -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']"
+emcc ../index.c -o index.js -s WASM=1 -s "EXPORTED_RUNTIME_METHODS=['ccall']" -s "EXPORTED_FUNCTIONS=['_malloc', '_free', '_main']"
 ```
+EXPORTED_FUNCTIONS - 将一些c函数导出，这里导出malloc/free/main
 
 index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函数，其它的函数将被视为无用代码。
 在一个函数名之前添加 EMSCRIPTEN_KEEPALIVE 能够防止这样的事情发生。
@@ -66,7 +67,7 @@ index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函
 
 ```shell
 cd ./web-worker/build
-emcc ../index.c -o index.html -O3 -s WASM=1 -s -pthread -s PROXY_TO_PTHREAD=1 --shell-file ../html-template/template.html -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']"
+emcc ../index.c -o index.html -O3 -s WASM=1 -s -pthread -s PROXY_TO_PTHREAD=1 --shell-file ../html-template/template.html -s "EXPORTED_RUNTIME_METHODS=['ccall']"
 
 cd ../
 npm run dev
@@ -91,7 +92,7 @@ Cross-Origin-Opener-Policy: same-origin
 
 ```shell
 cd ./only-js/build
-emcc ../index.c -o index.js -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" 
+emcc ../index.c -o index.js -s WASM=1 -s "EXPORTED_RUNTIME_METHODS=['ccall']" 
 ```
 
 使用一个支持 WebAssembly 的浏览器，加载生成的index.html即可。
@@ -115,7 +116,7 @@ emcc ./index.c -o ./build/index.js -O3 -s WASM=1 -s FORCE_FILESYSTEM=1
 ```shell
 # 前提工作，生成js/wasm
 cd ./load-remote-wasm/build
-emcc ../index.c -o index.html -O3 -s WASM=1 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['ccall']" --shell-file ../html-template/template.html
+emcc ../index.c -o index.html -O3 -s WASM=1 -s "EXPORTED_RUNTIME_METHODS=['ccall']" --shell-file ../html-template/template.html
 
 cd ../
 npm run dev

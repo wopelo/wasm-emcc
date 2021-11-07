@@ -76,16 +76,6 @@ EM_PORT_API(int*) fibonacci(int count) {
 	return re;
 }
 
-// 释放内存
-EM_PORT_API(void) free_buf(void* buf) {
-	free(buf);
-}
-
-// 分配内存
-EM_PORT_API(void*) malloc_buf(size_t size) {
-	return malloc(size);
-}
-
 // 求数组前count项的和
 EM_PORT_API(int) sum(int* ptr, int count) {
 	int total = 0;
@@ -93,4 +83,15 @@ EM_PORT_API(int) sum(int* ptr, int count) {
 		total += ptr[i];
 	}
 	return total;
+}
+
+// 向js传递字符串
+EM_PORT_API(const char*) get_string() {
+	static const char str[] = "Hello, wolrd! 你好，世界！";
+	return str;
+}
+
+// 打印js通过内存传递的字符串
+EM_PORT_API(void) print_string(char* str) {
+	printf("%s\n", str);
 }
