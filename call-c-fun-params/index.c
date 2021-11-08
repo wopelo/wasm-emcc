@@ -95,3 +95,16 @@ EM_PORT_API(const char*) get_string() {
 EM_PORT_API(void) print_string(char* str) {
 	printf("%s\n", str);
 }
+
+// c调用js函数
+EM_PORT_API(int) js_add(int a, int b);
+EM_PORT_API(float) js_addF(float a, float b);
+EM_PORT_API(void) js_console_log_int(int param);
+EM_PORT_API(void) js_console_log_float(float param);
+
+EM_PORT_API(void) print_the_answer() {
+	int i = js_add(21, 21);
+	float j = js_addF(1.1, 1.1);
+	js_console_log_int(i);
+	js_console_log_float(j);
+}

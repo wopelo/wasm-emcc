@@ -52,9 +52,10 @@ index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函
 
 ```shell
 cd ./call-c-fun-params/build
-emcc ../index.c -o index.js -s WASM=1 -s "EXPORTED_RUNTIME_METHODS=['ccall']" -s "EXPORTED_FUNCTIONS=['_malloc', '_free', '_main']"
+emcc ../index.c -o index.js -s WASM=1 -s "EXPORTED_RUNTIME_METHODS=['ccall']" -s "EXPORTED_FUNCTIONS=['_malloc', '_free', '_main']" --js-library ../pkg.js
 ```
 EXPORTED_FUNCTIONS - 将一些c函数导出，这里导出malloc/free/main
+--js-library - 将js函数注入c，后接js文件地址，需要把需要注入的函数单独定义在一个文件中
 
 index.c中，默认情况下，Emscripten 生成的代码只会调用 main() 函数，其它的函数将被视为无用代码。
 在一个函数名之前添加 EMSCRIPTEN_KEEPALIVE 能够防止这样的事情发生。

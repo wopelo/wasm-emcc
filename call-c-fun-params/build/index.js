@@ -1898,6 +1898,24 @@ var ASM_CONSTS = {
       return 0;
     }
 
+  function _js_add(a, b) {
+      console.log('js_add')
+      return a + b
+    }
+
+  function _js_addF(a, b) {
+      console.log('js_addF')
+      return a + b
+    }
+
+  function _js_console_log_float(param) {
+      console.log('js_console_log_float:' + param)
+    }
+
+  function _js_console_log_int(param) {
+      console.log('js_console_log_int:' + param)
+    }
+
   function _setTempRet0(val) {
       setTempRet0(val);
     }
@@ -1934,6 +1952,10 @@ var asmLibraryArg = {
   "emscripten_memcpy_big": _emscripten_memcpy_big,
   "emscripten_resize_heap": _emscripten_resize_heap,
   "fd_write": _fd_write,
+  "js_add": _js_add,
+  "js_addF": _js_addF,
+  "js_console_log_float": _js_console_log_float,
+  "js_console_log_int": _js_console_log_int,
   "setTempRet0": _setTempRet0
 };
 var asm = createWasm();
@@ -1975,6 +1997,9 @@ var _get_string = Module["_get_string"] = createExportWrapper("get_string");
 
 /** @type {function(...*):?} */
 var _print_string = Module["_print_string"] = createExportWrapper("print_string");
+
+/** @type {function(...*):?} */
+var _print_the_answer = Module["_print_the_answer"] = createExportWrapper("print_the_answer");
 
 /** @type {function(...*):?} */
 var ___errno_location = Module["___errno_location"] = createExportWrapper("__errno_location");

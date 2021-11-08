@@ -79,3 +79,8 @@ document.querySelector('#putStr').addEventListener('click', () => {
   Module._print_string(ptr)
   _free(ptr)
 })
+
+// print_the_answer调用了js注入的函数
+document.querySelector('#inject').addEventListener('click', () => {
+  Module._print_the_answer()
+})

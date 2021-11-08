@@ -8,11 +8,36 @@
 </head>
 <body>
   <div>
-    <button id="change">隐式类型转换</button>
-    <button id="fibonacci">斐波那契</button>
-    <button id="sum">sum</button>
-    <button id="getStr">get strings</button>
-    <button id="putStr">put strings</button>
+    <div>
+      <h3>通过number类型参数</h3>
+      <div>
+        <span>js向c函数传递number</span>
+        <button id="change">隐式类型转换</button>
+      </div>
+      <div>
+        <span>c调用注入的js函数</span>
+        <button id="inject">inject</button>
+      </div>
+    </div>
+    <div>
+      <h3>通过内存传递数据</h3>
+      <div>
+        <span>c通过内存向js传递number</span>
+        <button id="fibonacci">斐波那契</button>
+      </div>
+      <div>
+        <span>js通过内存向c传递number</span>
+        <button id="sum">sum</button>
+      </div>
+      <div>
+        <span>c通过内存向js传递字符串</span>
+        <button id="getStr">get strings</button>
+      </div>
+      <div>
+        <span>js通过内存向c传递字符串</span>
+        <button id="putStr">put strings</button>
+      </div>
+    </div>
   </div>
 
     <script src="./build/index.js"></script>
