@@ -1851,6 +1851,10 @@ var ASM_CONSTS = {
       abortOnCannotGrowMemory(requestedSize);
     }
 
+  function _emscripten_run_script(ptr) {
+      eval(UTF8ToString(ptr));
+    }
+
   function flush_NO_FILESYSTEM() {
       // flush anything remaining in the buffers during shutdown
       if (typeof _fflush !== 'undefined') _fflush(0);
@@ -1951,6 +1955,7 @@ function intArrayToString(array) {
 var asmLibraryArg = {
   "emscripten_memcpy_big": _emscripten_memcpy_big,
   "emscripten_resize_heap": _emscripten_resize_heap,
+  "emscripten_run_script": _emscripten_run_script,
   "fd_write": _fd_write,
   "js_add": _js_add,
   "js_addF": _js_addF,
@@ -2037,8 +2042,8 @@ var _free = Module["_free"] = createExportWrapper("free");
 /** @type {function(...*):?} */
 var dynCall_jiji = Module["dynCall_jiji"] = createExportWrapper("dynCall_jiji");
 
-var _g_int = Module['_g_int'] = 1744;
-var _g_double = Module['_g_double'] = 1752;
+var _g_int = Module['_g_int'] = 1792;
+var _g_double = Module['_g_double'] = 1800;
 
 
 

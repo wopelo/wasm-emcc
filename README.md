@@ -3,6 +3,9 @@
 ## Emscripten 环境安装
 https://developer.mozilla.org/zh-CN/docs/WebAssembly/C_to_wasm
 
+## 参考文档
+https://github.com/3dgen/cppwasm-book/tree/master/zh
+
 ## simple-demo
 将C/C++编译为WebAssembly的简单演示
 

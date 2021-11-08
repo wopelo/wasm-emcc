@@ -23,7 +23,11 @@
 #	endif
 #endif
 
+void emscripten_run_script(const char *script);
+
 int main(int argc, char ** argv) {
+	emscripten_run_script("console.log('From emscripten_run_script');");
+
   printf("Hello World\n");
 }
 
