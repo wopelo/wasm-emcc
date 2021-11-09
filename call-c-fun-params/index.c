@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <malloc.h>
-
+#include <string.h>
 
 // 定义函数导出宏
 // __EMSCRIPTEN__宏用于探测是否是Emscripten环境
@@ -111,4 +111,14 @@ EM_PORT_API(void) print_the_answer() {
 	float j = js_addF(1.1, 1.1);
 	js_console_log_int(i);
 	js_console_log_float(j);
+}
+
+// 通过ccall传递Uint8Array
+EM_PORT_API(int) getTotal(uint8_t* ptr, int count) {
+	int total = 0, temp;
+	for (int i = 0; i < count; i++){
+		memcpy(&temp, ptr + i * 4, 4);
+		total += temp;
+	}
+	return total;
 }

@@ -84,3 +84,33 @@ document.querySelector('#putStr').addEventListener('click', () => {
 document.querySelector('#inject').addEventListener('click', () => {
   Module._print_the_answer()
 })
+
+document.querySelector('#ccallStr').addEventListener('click', () => {
+  Module.ccall('print_string', 'null', ['string'], ['自定义的字符串']);
+})
+
+document.querySelector('#ccallU8').addEventListener('click', () => {
+  const count = 50
+	const buf = new ArrayBuffer(count * 4)
+	const i8 = new Uint8Array(buf)
+	const i32 = new Int32Array(buf)
+	for (var i = 0; i < count; i++){
+		i32[i] = i + 1
+	}
+	const result = Module.ccall('getTotal', 'number', ['array', 'number'], [i8, count])
+  console.log(result)
+})
+
+document.querySelector('#cwrapU8').addEventListener('click', () => {
+  const c_getTotal = Module.cwrap('getTotal', 'number', ['array', 'number']);
+
+  const count = 50
+	const buf = new ArrayBuffer(count * 4)
+	const i8 = new Uint8Array(buf)
+	const i32 = new Int32Array(buf)
+	for (var i = 0; i < count; i++){
+		i32[i] = i + 1
+	}
+	const result = c_getTotal(i8, count)
+  console.log(result)
+})
