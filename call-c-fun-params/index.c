@@ -26,7 +26,7 @@
 void emscripten_run_script(const char *script);
 
 int main(int argc, char ** argv) {
-	emscripten_run_script("console.log('From emscripten_run_script');");
+	emscripten_run_script("console.log('From emscripten_run_script', [{a: true}]);");
 
   printf("Hello World\n");
 }
@@ -105,12 +105,14 @@ EM_PORT_API(int) js_add(int a, int b);
 EM_PORT_API(float) js_addF(float a, float b);
 EM_PORT_API(void) js_console_log_int(int param);
 EM_PORT_API(void) js_console_log_float(float param);
+EM_PORT_API(void) js_console_log_string(char* str);
 
 EM_PORT_API(void) print_the_answer() {
 	int i = js_add(21, 21);
 	float j = js_addF(1.1, 1.1);
 	js_console_log_int(i);
 	js_console_log_float(j);
+	js_console_log_string("Hello, wolrd! 你好，世界！");
 }
 
 // 通过ccall传递Uint8Array

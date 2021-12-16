@@ -1920,6 +1920,10 @@ var ASM_CONSTS = {
       console.log('js_console_log_int:' + param)
     }
 
+  function _js_console_log_string(param) {
+      console.log('js_console_log_string', param)
+    }
+
   function _setTempRet0(val) {
       setTempRet0(val);
     }
@@ -1961,6 +1965,7 @@ var asmLibraryArg = {
   "js_addF": _js_addF,
   "js_console_log_float": _js_console_log_float,
   "js_console_log_int": _js_console_log_int,
+  "js_console_log_string": _js_console_log_string,
   "setTempRet0": _setTempRet0
 };
 var asm = createWasm();
@@ -2045,8 +2050,8 @@ var _free = Module["_free"] = createExportWrapper("free");
 /** @type {function(...*):?} */
 var dynCall_jiji = Module["dynCall_jiji"] = createExportWrapper("dynCall_jiji");
 
-var _g_int = Module['_g_int'] = 1792;
-var _g_double = Module['_g_double'] = 1800;
+var _g_int = Module['_g_int'] = 1840;
+var _g_double = Module['_g_double'] = 1848;
 
 
 
@@ -2055,7 +2060,7 @@ var _g_double = Module['_g_double'] = 1800;
 if (!Object.getOwnPropertyDescriptor(Module, "intArrayFromString")) Module["intArrayFromString"] = function() { abort("'intArrayFromString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "intArrayToString")) Module["intArrayToString"] = function() { abort("'intArrayToString' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 Module["ccall"] = ccall;
-Module["cwrap"] = cwrap;
+if (!Object.getOwnPropertyDescriptor(Module, "cwrap")) Module["cwrap"] = function() { abort("'cwrap' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "setValue")) Module["setValue"] = function() { abort("'setValue' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "getValue")) Module["getValue"] = function() { abort("'getValue' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "allocate")) Module["allocate"] = function() { abort("'allocate' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };

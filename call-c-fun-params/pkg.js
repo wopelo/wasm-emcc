@@ -15,5 +15,8 @@ mergeInto(LibraryManager.library, {
   },
   js_console_log_float: function (param) {
     console.log('js_console_log_float:' + param)
+  },
+  js_console_log_string: function (param) {
+    console.log('js_console_log_string', param)
   }
 })
