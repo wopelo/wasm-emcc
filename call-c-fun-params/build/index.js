@@ -1738,7 +1738,7 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  2012: function() {console.log('Hello，Emscripten!')}
+  2012: function() {console.log('From EM_ASM', [{a: true}])}
 };
 
 
