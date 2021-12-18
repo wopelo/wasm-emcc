@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
+#include <emscripten.h>
 
 // 定义函数导出宏
 // __EMSCRIPTEN__宏用于探测是否是Emscripten环境
@@ -27,7 +28,7 @@ void emscripten_run_script(const char *script);
 
 int main(int argc, char ** argv) {
 	emscripten_run_script("console.log('From emscripten_run_script', [{a: true}]);");
-
+	EM_ASM(console.log('Hello，Emscripten!'));
   printf("Hello World\n");
 }
 
