@@ -86,7 +86,7 @@ document.querySelector('#inject').addEventListener('click', () => {
 })
 
 document.querySelector('#ccallStr').addEventListener('click', () => {
-  Module.ccall('print_string', 'null', ['string'], ['自定义的字符串']);
+  Module.ccall('print_string', 'null', ['string'], ['你好，Emscripten！'])
 })
 
 document.querySelector('#ccallU8').addEventListener('click', () => {
@@ -101,8 +101,13 @@ document.querySelector('#ccallU8').addEventListener('click', () => {
   console.log(result)
 })
 
+document.querySelector('#cwrapStr').addEventListener('click', () => {
+  const printString = Module.cwrap('print_string', 'null', ['string'])
+  printString('你好，Emscripten！')
+})
+
 document.querySelector('#cwrapU8').addEventListener('click', () => {
-  const c_getTotal = Module.cwrap('getTotal', 'number', ['array', 'number']);
+  const c_getTotal = Module.cwrap('getTotal', 'number', ['array', 'number'])
 
   const count = 50
 	const buf = new ArrayBuffer(count * 4)
